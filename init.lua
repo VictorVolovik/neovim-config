@@ -15,5 +15,5 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 local opts = {}
-require("lazy.view.config").keys.close = '<Esc>'
+require("lazy.view.config").keys.close = "<Esc>"
 require("lazy").setup("plugins", opts)

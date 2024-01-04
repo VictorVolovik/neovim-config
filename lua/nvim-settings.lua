@@ -15,7 +15,6 @@ vim.cmd("set smartcase")
 -- add simple hightlight removal
 vim.cmd("nmap <Leader><space> :nohlsearch<CR>")
 
-
 -- Move vertically by visual line
 vim.cmd("nnoremap j gj")
 vim.cmd("nnoremap k gk")

@@ -3,7 +3,7 @@ return {
     "williamboman/mason.nvim",
     config = function()
       require("mason").setup()
-    end
+    end,
   },
   {
     "williamboman/mason-lspconfig.nvim",
@@ -11,10 +11,10 @@ return {
       require("mason-lspconfig").setup({
         ensure_installed = {
           "lua_ls",
-          "tsserver"
-        }
+          "tsserver",
+        },
       })
-    end
+    end,
   },
   {
     "neovim/nvim-lspconfig",
@@ -24,10 +24,10 @@ return {
       lspconfig.tsserver.setup({})
 
       -- Diagnostics
-      vim.keymap.set('n', '<Leader>e', vim.diagnostic.open_float)
-      vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
-      vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
-      vim.keymap.set('n', '<Leader>q', vim.diagnostic.setloclist)
+      vim.keymap.set("n", "<Leader>e", vim.diagnostic.open_float)
+      vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
+      vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
+      vim.keymap.set("n", "<Leader>q", vim.diagnostic.setloclist)
 
       -- Defitions, declarations and types
       vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
@@ -49,8 +49,8 @@ return {
       vim.keymap.set({ "n", "v" }, "<Leader>ca", vim.lsp.buf.code_action, {})
       vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, {})
       vim.keymap.set("n", "<Leader>f", function()
-        vim.lsp.buf.format { async = true }
+        vim.lsp.buf.format({ async = true })
       end, {})
-    end
-  }
+    end,
+  },
 }
