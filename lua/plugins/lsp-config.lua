@@ -38,11 +38,11 @@ return {
 			-- Defitions, declarations and types
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 			vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, {})
+			vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
+			vim.keymap.set("n", "gD", vim.lsp.buf.declaration, {})
 			vim.keymap.set("n", "<Leader>D", vim.lsp.buf.type_definition, {})
-			vim.keymap.set("n", "<Leader>gd", vim.lsp.buf.definition, {})
-			vim.keymap.set("n", "<Leader>gD", vim.lsp.buf.declaration, {})
-			vim.keymap.set("n", "<Leader>gi", vim.lsp.buf.implementation, {})
-			vim.keymap.set("n", "<Leader>gr", vim.lsp.buf.references, {})
+			vim.keymap.set("n", "gi", vim.lsp.buf.implementation, {})
+			vim.keymap.set("n", "gr", vim.lsp.buf.references, {})
 
 			-- Workspace
 			vim.keymap.set("n", "<Leader>wa", vim.lsp.buf.add_workspace_folder, {})
