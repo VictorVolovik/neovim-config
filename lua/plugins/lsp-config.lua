@@ -12,6 +12,7 @@ return {
         ensure_installed = {
           "lua_ls",
           "tsserver",
+          "emmet_language_server"
         },
       })
     end,
@@ -27,6 +28,9 @@ return {
       })
       lspconfig.tsserver.setup({
         capabilities = capabilities,
+      })
+      lspconfig.emmet_language_server.setup({
+        capabilities = capabilities
       })
 
       -- Diagnostics
