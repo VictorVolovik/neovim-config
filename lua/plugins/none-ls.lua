@@ -5,13 +5,13 @@ dependencies = {
 		},
   config = function()
     local null_ls = require("null-ls")
-    local eslint_d = require("none-ls.diagnostics.eslint_d")
+    local eslint = require("none-ls.diagnostics.eslint")
 
     null_ls.setup({
       sources = {
         null_ls.builtins.formatting.stylua,
         null_ls.builtins.formatting.prettier,
-        eslint_d
+        eslint
       },
     })
   end
