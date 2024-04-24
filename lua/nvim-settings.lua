@@ -34,3 +34,12 @@ vim.cmd("nnoremap <Delete> :bdelete<CR>")
 --- Moving between tabs
 vim.cmd("nmap <Leader><PageUp> :tabp<cr>")
 vim.cmd("nmap <Leader><PageDown> :tabn<cr>")
+
+-- Fix nvim hadling new line with * selector in css --
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "css",
+  callback = function()
+    -- @see :help fo-table
+    vim.opt_local.formatoptions:remove({ 'r' })
+  end,
+})

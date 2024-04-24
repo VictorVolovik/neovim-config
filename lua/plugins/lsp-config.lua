@@ -41,7 +41,7 @@ return {
 
       -- Defitions, declarations and types
       vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
-      vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, {})
+      vim.keymap.set("n", "gsh", vim.lsp.buf.signature_help, {})
       vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
       vim.keymap.set("n", "gD", vim.lsp.buf.declaration, {})
       vim.keymap.set("n", "<Leader>D", vim.lsp.buf.type_definition, {})
