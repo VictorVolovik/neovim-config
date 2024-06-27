@@ -12,7 +12,7 @@ return {
         ensure_installed = {
           "lua_ls",
           "tsserver",
-          "emmet_language_server"
+          "emmet_language_server",
         },
       })
     end,
@@ -30,7 +30,7 @@ return {
         capabilities = capabilities,
       })
       lspconfig.emmet_language_server.setup({
-        capabilities = capabilities
+        capabilities = capabilities,
       })
 
       -- Diagnostics
@@ -58,7 +58,7 @@ return {
       -- Code actions & refactoring
       vim.keymap.set({ "n", "v" }, "<Leader>ca", vim.lsp.buf.code_action, {})
       vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, {})
-      vim.keymap.set("n", "<Leader>f", function()
+      vim.keymap.set("n", "<Leader>ff", function()
         vim.lsp.buf.format({ async = true })
       end, {})
     end,
