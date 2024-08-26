@@ -1,18 +1,25 @@
 return {
   "nvimtools/none-ls.nvim",
-dependencies = {
-			"nvimtools/none-ls-extras.nvim",
-		},
+  dependencies = {
+    "nvimtools/none-ls-extras.nvim",
+    "gwinn/none-ls-jsonlint.nvim",
+  },
   config = function()
     local null_ls = require("null-ls")
     local eslint = require("none-ls.diagnostics.eslint")
+    local jsonlint = require("none-ls-jsonlint.diagnostics.jsonlint")
 
     null_ls.setup({
       sources = {
         null_ls.builtins.formatting.stylua,
         null_ls.builtins.formatting.prettier,
-        eslint
+        eslint.with({
+          condition = function(utils)
+            return utils.root_has_file_matches("eslint")
+          end,
+        }),
+        jsonlint,
       },
     })
-  end
+  end,
 }

@@ -12,6 +12,8 @@ return {
         ensure_installed = {
           "lua_ls",
           "tsserver",
+          "eslint",
+          "jsonls",
           "emmet_language_server",
         },
       })
@@ -31,6 +33,19 @@ return {
       })
       lspconfig.emmet_language_server.setup({
         capabilities = capabilities,
+      })
+      lspconfig.jsonls.setup({
+        capabilities = capabilities,
+        settings = {
+          json = {
+            schemas = {
+              {
+                fileMatch = { "package.json" },
+                url = "https://json.schemastore.org/package.json",
+              },
+            },
+          },
+        },
       })
 
       -- Border
