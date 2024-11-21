@@ -12,6 +12,7 @@ return {
         ensure_installed = {
           "lua_ls",
           "ts_ls",
+          "denols",
           "eslint",
           "jsonls",
           "emmet_language_server",
@@ -30,6 +31,12 @@ return {
       })
       lspconfig.ts_ls.setup({
         capabilities = capabilities,
+        root_dir = lspconfig.util.root_pattern("package.json"),
+        single_file_support = false,
+      })
+      lspconfig.denols.setup({
+        capabilities = capabilities,
+        root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
       })
       lspconfig.emmet_language_server.setup({
         capabilities = capabilities,
