@@ -13,6 +13,7 @@ return {
           "lua_ls",
           "ts_ls",
           "denols",
+          "gopls",
           "eslint",
           "jsonls",
           "emmet_language_server",
@@ -37,6 +38,9 @@ return {
       lspconfig.denols.setup({
         capabilities = capabilities,
         root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
+      })
+      lspconfig.gopls.setup({
+        capabilities = capabilities,
       })
       lspconfig.emmet_language_server.setup({
         capabilities = capabilities,
