@@ -41,6 +41,12 @@ return {
       })
       lspconfig.gopls.setup({
         capabilities = capabilities,
+        vim.api.nvim_create_autocmd("BufWritePre", {
+          pattern = "*.go",
+          callback = function()
+            vim.lsp.buf.format({ async = false })
+          end,
+        }),
       })
       lspconfig.emmet_language_server.setup({
         capabilities = capabilities,
