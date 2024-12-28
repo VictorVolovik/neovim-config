@@ -70,7 +70,7 @@ return {
       })
 
       -- Border
-      local _border = "single"
+      local _border = "solid"
       vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
         border = _border,
       })
