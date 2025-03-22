@@ -17,6 +17,7 @@ return {
           "eslint",
           "emmet_language_server",
           "jsonls",
+          "tailwindcss",
         },
       })
     end,
@@ -49,6 +50,9 @@ return {
         }),
       })
       lspconfig.emmet_language_server.setup({
+        capabilities = capabilities,
+      })
+      lspconfig.tailwindcss.setup({
         capabilities = capabilities,
       })
       lspconfig.jsonls.setup({
