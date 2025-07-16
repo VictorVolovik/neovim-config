@@ -14,6 +14,7 @@ return {
           "ts_ls",
           "denols",
           "gopls",
+          "rust_analyzer",
           "eslint",
           "emmet_language_server",
           "jsonls",
@@ -44,6 +45,15 @@ return {
         capabilities = capabilities,
         vim.api.nvim_create_autocmd("BufWritePre", {
           pattern = "*.go",
+          callback = function()
+            vim.lsp.buf.format({ async = false })
+          end,
+        }),
+      })
+      lspconfig.rust_analyzer.setup({
+        capabilities = capabilities,
+        vim.api.nvim_create_autocmd("BufWritePre", {
+          pattern = "*.rs",
           callback = function()
             vim.lsp.buf.format({ async = false })
           end,
