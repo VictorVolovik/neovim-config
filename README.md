@@ -70,7 +70,7 @@ Leader key is `Space`.
 |-----|--------|
 | `Ctrl+p` | Find files |
 | `Ctrl+t` | Recent files |
-| `Ctrl+b` | Open buffers |
+| `Space b` | Open buffers |
 | `Space fg` | Live grep |
 | `Space dd` | All diagnostics |
 
