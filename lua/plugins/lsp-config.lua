@@ -102,7 +102,23 @@ return {
       vim.o.winborder = "solid"
 
       -- Diagnostics
-      vim.keymap.set("n", "<Leader>d", vim.diagnostic.open_float)
+      vim.diagnostic.config({
+        signs = {
+          text = {
+            [vim.diagnostic.severity.ERROR] = "",
+            [vim.diagnostic.severity.WARN] = "",
+            [vim.diagnostic.severity.INFO] = "",
+            [vim.diagnostic.severity.HINT] = "",
+          },
+          numhl = {
+            [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
+            [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
+            [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
+            [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
+          },
+        },
+      })
+      vim.keymap.set("n", "<Leader>e", vim.diagnostic.open_float)
 
       -- LSP keybindings via LspAttach
       vim.api.nvim_create_autocmd("LspAttach", {
@@ -122,7 +138,7 @@ return {
           -- Actions
           vim.keymap.set({ "n", "v" }, "<Leader>a", vim.lsp.buf.code_action, opts)
           vim.keymap.set("n", "<Leader>r", vim.lsp.buf.rename, opts)
-          vim.keymap.set("n", "<Leader>ff", function()
+          vim.keymap.set("n", "<Leader>lf", function()
             vim.lsp.buf.format({ async = true })
           end, opts)
 

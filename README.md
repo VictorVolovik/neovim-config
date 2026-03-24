@@ -68,11 +68,16 @@ Leader key is `Space`.
 
 | Key | Action |
 |-----|--------|
-| `Ctrl+p` | Find files |
-| `Ctrl+t` | Recent files |
+| `Space f` | Find files |
+| `Space F` | Find all files (hidden + ignored) |
+| `Space t` | Recent files |
+| `Space /` | Live grep |
 | `Space b` | Open buffers |
-| `Space fg` | Live grep |
-| `Space dd` | All diagnostics |
+| `Space g` | Changed files (git status) |
+| `Space d` | Buffer diagnostics |
+| `Space D` | Workspace diagnostics |
+| `Space j` | Jumplist |
+| `Space '` | Resume last picker |
 
 ## LSP — Goto
 
@@ -100,13 +105,13 @@ Leader key is `Space`.
 |-----|--------|
 | `Space a` | Code action |
 | `Space r` | Rename symbol |
-| `Space ff` | Format file |
+| `Space lf` | Format file |
 
 ## Diagnostics
 
 | Key | Action |
 |-----|--------|
-| `Space d` | Show diagnostic float |
+| `Space e` | Show diagnostic float |
 | `[d` / `]d` | Previous / next diagnostic (nvim default) |
 
 ## Navigation (Helix-style)
