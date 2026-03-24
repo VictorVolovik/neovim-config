@@ -3,6 +3,16 @@ return {
     "williamboman/mason.nvim",
     config = function()
       require("mason").setup()
+
+      -- Ensure non-LSP tools are installed
+      local ensure_installed = { "sqlfluff", "stylua", "prettier", "staticcheck", "jsonlint" }
+      local registry = require("mason-registry")
+      for _, name in ipairs(ensure_installed) do
+        local ok, pkg = pcall(registry.get_package, name)
+        if ok and not pkg:is_installed() then
+          pkg:install()
+        end
+      end
     end,
   },
   {
@@ -12,13 +22,14 @@ return {
         ensure_installed = {
           "lua_ls",
           "ts_ls",
-          "denols",
           "gopls",
           "rust_analyzer",
           "eslint",
           "emmet_language_server",
           "jsonls",
           "tailwindcss",
+          "cssls",
+          "html",
         },
       })
     end,
@@ -26,47 +37,29 @@ return {
   {
     "neovim/nvim-lspconfig",
     config = function()
-      local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-      lspconfig.lua_ls.setup({
+      -- Global defaults for all servers
+      vim.lsp.config("*", {
         capabilities = capabilities,
       })
-      lspconfig.ts_ls.setup({
-        capabilities = capabilities,
-        root_dir = lspconfig.util.root_pattern("package.json"),
-        single_file_support = false,
+
+      -- Per-server overrides
+      vim.lsp.config("ts_ls", {
+        root_markers = { "package.json" },
       })
-      lspconfig.denols.setup({
-        capabilities = capabilities,
-        root_dir = lspconfig.util.root_pattern("deno.json", "deno.jsonc"),
+
+      vim.lsp.config("rust_analyzer", {
+        settings = {
+          ["rust-analyzer"] = {
+            cargo = { allFeatures = true },
+            check = { command = "clippy" },
+            procMacro = { enable = true },
+          },
+        },
       })
-      lspconfig.gopls.setup({
-        capabilities = capabilities,
-        vim.api.nvim_create_autocmd("BufWritePre", {
-          pattern = "*.go",
-          callback = function()
-            vim.lsp.buf.format({ async = false })
-          end,
-        }),
-      })
-      lspconfig.rust_analyzer.setup({
-        capabilities = capabilities,
-        vim.api.nvim_create_autocmd("BufWritePre", {
-          pattern = "*.rs",
-          callback = function()
-            vim.lsp.buf.format({ async = false })
-          end,
-        }),
-      })
-      lspconfig.emmet_language_server.setup({
-        capabilities = capabilities,
-      })
-      lspconfig.tailwindcss.setup({
-        capabilities = capabilities,
-      })
-      lspconfig.jsonls.setup({
-        capabilities = capabilities,
+
+      vim.lsp.config("jsonls", {
         settings = {
           json = {
             schemas = {
@@ -75,7 +68,7 @@ return {
                 url = "https://json.schemastore.org/package.json",
               },
               {
-                fileMatch = { "tsconfig.json" },
+                fileMatch = { "tsconfig.json", "tsconfig.*.json" },
                 url = "https://json.schemastore.org/tsconfig.json",
               },
             },
@@ -83,46 +76,61 @@ return {
         },
       })
 
-      -- Border
-      local _border = "solid"
-      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-        border = _border,
+      -- Enable all servers
+      vim.lsp.enable({
+        "lua_ls",
+        "ts_ls",
+        "gopls",
+        "rust_analyzer",
+        "eslint",
+        "emmet_language_server",
+        "jsonls",
+        "tailwindcss",
+        "cssls",
+        "html",
       })
-      vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-        border = _border,
+
+      -- Format on save for Go and Rust
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        pattern = { "*.go", "*.rs" },
+        callback = function()
+          vim.lsp.buf.format({ async = false })
+        end,
       })
-      vim.diagnostic.config({
-        float = { border = _border },
-      })
+
+      -- Border for all floating windows
+      vim.o.winborder = "solid"
 
       -- Diagnostics
-      vim.keymap.set("n", "<Leader>e", vim.diagnostic.open_float)
-      vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
-      vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
-      vim.keymap.set("n", "<Leader>q", vim.diagnostic.setloclist)
+      vim.keymap.set("n", "<Leader>d", vim.diagnostic.open_float)
 
-      -- Defitions, declarations and types
-      vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
-      vim.keymap.set("n", "gsh", vim.lsp.buf.signature_help, {})
-      vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
-      vim.keymap.set("n", "gD", vim.lsp.buf.declaration, {})
-      vim.keymap.set("n", "<Leader>D", vim.lsp.buf.type_definition, {})
-      vim.keymap.set("n", "gi", vim.lsp.buf.implementation, {})
-      vim.keymap.set("n", "gr", vim.lsp.buf.references, {})
+      -- LSP keybindings via LspAttach
+      vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function(args)
+          local opts = { buffer = args.buf }
 
-      -- Workspace
-      vim.keymap.set("n", "<Leader>wa", vim.lsp.buf.add_workspace_folder, {})
-      vim.keymap.set("n", "<Leader>wr", vim.lsp.buf.remove_workspace_folder, {})
-      vim.keymap.set("n", "<Leader>wl", function()
-        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-      end, {})
+          -- Goto
+          vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+          vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+          vim.keymap.set("n", "gy", vim.lsp.buf.type_definition, opts)
+          vim.keymap.set("n", "gI", "<cmd>Telescope lsp_implementations<CR>", opts)
+          vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", opts)
 
-      -- Code actions & refactoring
-      vim.keymap.set({ "n", "v" }, "<Leader>ca", vim.lsp.buf.code_action, {})
-      vim.keymap.set("n", "<Leader>rn", vim.lsp.buf.rename, {})
-      vim.keymap.set("n", "<Leader>ff", function()
-        vim.lsp.buf.format({ async = true })
-      end, {})
+          -- Info
+          vim.keymap.set("n", "gsh", vim.lsp.buf.signature_help, opts)
+
+          -- Actions
+          vim.keymap.set({ "n", "v" }, "<Leader>a", vim.lsp.buf.code_action, opts)
+          vim.keymap.set("n", "<Leader>r", vim.lsp.buf.rename, opts)
+          vim.keymap.set("n", "<Leader>ff", function()
+            vim.lsp.buf.format({ async = true })
+          end, opts)
+
+          -- Symbols (via Telescope)
+          vim.keymap.set("n", "<Leader>s", "<cmd>Telescope lsp_document_symbols<CR>", opts)
+          vim.keymap.set("n", "<Leader>S", "<cmd>Telescope lsp_workspace_symbols<CR>", opts)
+        end,
+      })
     end,
   },
 }

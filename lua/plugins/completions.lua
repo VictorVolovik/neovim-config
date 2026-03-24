@@ -9,6 +9,9 @@ return {
     "hrsh7th/cmp-nvim-lsp",
   },
   {
+    "ray-x/cmp-sql",
+  },
+  {
     "L3MON4D3/LuaSnip",
     dependencies = {
       "saadparwaiz1/cmp_luasnip",
@@ -21,7 +24,6 @@ return {
     config = function()
       local cmp = require("cmp")
       local luasnip = require("luasnip")
-      require("luasnip.loaders.from_vscode").lazy_load()
 
       cmp.setup({
         snippet = {
@@ -34,9 +36,9 @@ return {
           documentation = cmp.config.window.bordered(),
         },
         mapping = cmp.mapping.preset.insert({
-          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-          ["<C-f>"] = cmp.mapping.scroll_docs(4),
-          ["<C-Space>"] = cmp.mapping.complete(),
+          ["<C-x>"] = cmp.mapping.complete(),
+          ["<Up>"] = cmp.mapping.scroll_docs(-4),
+          ["<Down>"] = cmp.mapping.scroll_docs(4),
           ["<C-e>"] = cmp.mapping.abort(),
           -- Set `select` to `false` to only confirm explicitly selected items
           ["<CR>"] = cmp.mapping.confirm({ select = false }),
@@ -68,11 +70,20 @@ return {
             else
               fallback()
             end
-          end, { "i", "s" }),
+          end, { "i", "s" })
         }),
         sources = cmp.config.sources({
           { name = "nvim_lsp" },
           { name = "luasnip" },
+        }, {
+          { name = "buffer" },
+        }),
+      })
+
+      -- SQL keyword completion via cmp-sql
+      cmp.setup.filetype("sql", {
+        sources = cmp.config.sources({
+          { name = "sql" },
         }, {
           { name = "buffer" },
         }),

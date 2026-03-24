@@ -16,7 +16,6 @@ return {
 			},
 		})
 
-		vim.keymap.set("n", "\\", ":Neotree filesystem toggle left<CR>")
-		vim.keymap.set("n", "<C-b>", ":Neotree buffers toggle left<CR>")
+		vim.keymap.set("n", "\\", "<cmd>Neotree filesystem toggle left<CR>")
 	end,
 }

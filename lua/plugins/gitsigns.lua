@@ -11,8 +11,8 @@ return {
           vim.keymap.set(mode, l, r, opts)
         end
 
-        -- Navigation
-        map('n', ']c', function()
+        -- Navigation (Helix-style: ]g/[g for git hunks)
+        map('n', ']g', function()
           if vim.wo.diff then
             vim.cmd.normal({ ']c', bang = true })
           else
@@ -20,7 +20,7 @@ return {
           end
         end)
 
-        map('n', '[c', function()
+        map('n', '[g', function()
           if vim.wo.diff then
             vim.cmd.normal({ '[c', bang = true })
           else
