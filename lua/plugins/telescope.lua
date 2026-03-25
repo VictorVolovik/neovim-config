@@ -20,7 +20,10 @@ return {
 				})
 			end, {})
 
-			vim.keymap.set("n", "<leader>h", builtin.oldfiles, {})
+			vim.keymap.set("n", "<leader>p", function()
+				builtin.oldfiles({ cwd_only = true })
+			end, {})
+			vim.keymap.set("n", "<leader>P", builtin.oldfiles, {})
 			vim.keymap.set("n", "<leader>/", builtin.live_grep, {})
 			vim.keymap.set("n", "<leader>b", builtin.buffers, {})
 			vim.keymap.set("n", "<leader>g", builtin.git_status, {})
