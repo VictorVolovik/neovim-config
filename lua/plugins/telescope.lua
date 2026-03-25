@@ -32,6 +32,21 @@ return {
 			end, {})
 			vim.keymap.set("n", "<leader>D", builtin.diagnostics, {})
 			vim.keymap.set("n", "<leader>j", builtin.jumplist, {})
+			vim.keymap.set("n", "<leader>m", function()
+				local cwd = vim.fn.getcwd() .. "/"
+				local make_entry = require("telescope.make_entry")
+				local default_maker = make_entry.gen_from_marks({})
+				builtin.marks({
+					mark_type = "global",
+					entry_maker = function(item)
+						if item.filename and not vim.startswith(item.filename, cwd) then
+							return nil
+						end
+						return default_maker(item)
+					end,
+				})
+			end, {})
+			vim.keymap.set("n", "<leader>M", builtin.marks, {})
 			vim.keymap.set("n", "<leader>'", builtin.resume, {})
 		end,
 	},
