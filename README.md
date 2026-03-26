@@ -158,5 +158,5 @@ Leader key is `Space`.
 
 ## Auto behaviors
 
-- Format on save for Go (`*.go`) and Rust (`*.rs`) files
+- Format on save for TypeScript (`*.ts`), TypeScript React (`*.ts`), Go (`*.go`) and Rust (`*.rs`) files
 - Treesitter highlighting for all supported file types

@@ -90,9 +90,9 @@ return {
         "html",
       })
 
-      -- Format on save for Go and Rust
+      -- Format on save for TS, Go and Rust
       vim.api.nvim_create_autocmd("BufWritePre", {
-        pattern = { "*.go", "*.rs" },
+        pattern = { "*.go", "*.rs", "*.ts", "*.tsx" },
         callback = function()
           vim.lsp.buf.format({ async = false })
         end,
