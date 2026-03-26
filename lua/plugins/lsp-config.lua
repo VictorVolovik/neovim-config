@@ -126,9 +126,9 @@ return {
           local opts = { buffer = args.buf }
 
           -- Goto
-          vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-          vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-          vim.keymap.set("n", "gy", vim.lsp.buf.type_definition, opts)
+          vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts)
+          vim.keymap.set("n", "gD", "<cmd>Telescope lsp_definitions jump_type='never'<CR>", opts)
+          vim.keymap.set("n", "gy", "<cmd>Telescope lsp_type_definitions<CR>", opts)
           vim.keymap.set("n", "gI", "<cmd>Telescope lsp_implementations<CR>", opts)
           vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", opts)
 
