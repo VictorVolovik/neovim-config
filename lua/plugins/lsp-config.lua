@@ -30,6 +30,7 @@ return {
           "tailwindcss",
           "cssls",
           "html",
+          "astro",
         },
       })
     end,
@@ -88,11 +89,12 @@ return {
         "tailwindcss",
         "cssls",
         "html",
+        "astro",
       })
 
       -- Format on save for TS, Go and Rust
       vim.api.nvim_create_autocmd("BufWritePre", {
-        pattern = { "*.go", "*.rs", "*.ts", "*.tsx" },
+        pattern = { "*.go", "*.rs", "*.ts", "*.tsx", "*.astro", "*.css" },
         callback = function()
           vim.lsp.buf.format({ async = false })
         end,

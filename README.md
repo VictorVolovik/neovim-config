@@ -14,6 +14,26 @@ git clone https://github.com/VictorVolovik/neovim-config.git ~/.config/nvim
 brew install neovim ripgrep
 ```
 
+## Linux (Ubuntu / Debian)
+
+```
+sudo apt install neovim ripgrep
+```
+
+## Linux (Fedora)
+
+```
+sudo dnf install neovim ripgrep
+```
+
+## Linux (Arch)
+
+```
+sudo pacman -S neovim ripgrep
+```
+
+## Fonts
+
 [Nerdfonts](https://www.nerdfonts.com/)
 
 ## Language servers (auto-installed via Mason)
@@ -22,6 +42,7 @@ brew install neovim ripgrep
 - `ts_ls` — TypeScript / JavaScript / TSX / JSX
 - `gopls` — Go
 - `rust_analyzer` — Rust (clippy, allFeatures, procMacro)
+- `astro` — Astro
 - `eslint` — ESLint
 - `emmet_language_server` — Emmet
 - `tailwindcss` — Tailwind CSS
@@ -68,24 +89,27 @@ Leader key is `Space`.
 
 | Key | Action |
 |-----|--------|
-| `Space f` | Find files |
+| `Space f` | Find files (hidden, respects .gitignore) |
 | `Space F` | Find all files (hidden + ignored) |
-| `Space t` | Recent files |
+| `Space p` | Recent files (project) |
+| `Space P` | Recent files (all) |
 | `Space /` | Live grep |
 | `Space b` | Open buffers |
 | `Space g` | Changed files (git status) |
 | `Space d` | Buffer diagnostics |
 | `Space D` | Workspace diagnostics |
 | `Space j` | Jumplist |
+| `Space m` | Global marks (project) |
+| `Space M` | All marks |
 | `Space '` | Resume last picker |
 
 ## LSP — Goto
 
 | Key | Action |
 |-----|--------|
-| `gd` | Go to definition |
-| `gD` | Go to declaration |
-| `gy` | Go to type definition |
+| `gd` | Go to definition (Telescope) |
+| `gD` | Preview definition (Telescope, no auto-jump) |
+| `gy` | Go to type definition (Telescope) |
 | `gI` | Go to implementation (Telescope) |
 | `gr` | Go to references (Telescope) |
 
@@ -158,5 +182,6 @@ Leader key is `Space`.
 
 ## Auto behaviors
 
-- Format on save for TypeScript (`*.ts`), TypeScript React (`*.ts`), Go (`*.go`) and Rust (`*.rs`) files
+- Format on save for Go (`*.go`), Rust (`*.rs`), TypeScript (`*.ts`, `*.tsx`), Astro (`*.astro`) and CSS (`*.css`) files
+- Neo-tree follows current file
 - Treesitter highlighting for all supported file types
