@@ -42,79 +42,79 @@ vim.keymap.set("n", "<Leader><PageDown>", "<cmd>tabn<CR>")
 
 -- Fix nvim handling new line with * selector in css
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "css",
-  callback = function()
-    vim.opt_local.formatoptions:remove({ "r" })
-  end,
+	pattern = "css",
+	callback = function()
+		vim.opt_local.formatoptions:remove({ "r" })
+	end,
 })
 
 -- Comment navigation (Helix-style: ]c/[c)
 local function jump_to_comment(direction)
-  local ts = vim.treesitter
-  local bufnr = vim.api.nvim_get_current_buf()
-  local cursor = vim.api.nvim_win_get_cursor(0)
-  local row = cursor[1] - 1 -- 0-indexed
+	local ts = vim.treesitter
+	local bufnr = vim.api.nvim_get_current_buf()
+	local cursor = vim.api.nvim_win_get_cursor(0)
+	local row = cursor[1] - 1 -- 0-indexed
 
-  local ok, parser = pcall(ts.get_parser, bufnr)
-  if not ok or not parser then
-    return
-  end
+	local ok, parser = pcall(ts.get_parser, bufnr)
+	if not ok or not parser then
+		return
+	end
 
-  local tree = parser:parse()[1]
-  if not tree then
-    return
-  end
+	local tree = parser:parse()[1]
+	if not tree then
+		return
+	end
 
-  local root = tree:root()
-  local comments = {}
+	local root = tree:root()
+	local comments = {}
 
-  -- Collect all comment nodes
-  for node in root:iter_children() do
-    local function collect_comments(n)
-      if n:type():match("comment") then
-        table.insert(comments, n)
-      end
-      for child in n:iter_children() do
-        collect_comments(child)
-      end
-    end
-    collect_comments(node)
-  end
+	-- Collect all comment nodes
+	for node in root:iter_children() do
+		local function collect_comments(n)
+			if n:type():match("comment") then
+				table.insert(comments, n)
+			end
+			for child in n:iter_children() do
+				collect_comments(child)
+			end
+		end
+		collect_comments(node)
+	end
 
-  if #comments == 0 then
-    return
-  end
+	if #comments == 0 then
+		return
+	end
 
-  -- Find next/prev comment with wrapping
-  if direction == "next" then
-    for _, node in ipairs(comments) do
-      local start_row = node:start()
-      if start_row > row then
-        vim.api.nvim_win_set_cursor(0, { start_row + 1, 0 })
-        return
-      end
-    end
-    -- Wrap to first comment
-    local start_row = comments[1]:start()
-    vim.api.nvim_win_set_cursor(0, { start_row + 1, 0 })
-  else
-    for i = #comments, 1, -1 do
-      local start_row = comments[i]:start()
-      if start_row < row then
-        vim.api.nvim_win_set_cursor(0, { start_row + 1, 0 })
-        return
-      end
-    end
-    -- Wrap to last comment
-    local start_row = comments[#comments]:start()
-    vim.api.nvim_win_set_cursor(0, { start_row + 1, 0 })
-  end
+	-- Find next/prev comment with wrapping
+	if direction == "next" then
+		for _, node in ipairs(comments) do
+			local start_row = node:start()
+			if start_row > row then
+				vim.api.nvim_win_set_cursor(0, { start_row + 1, 0 })
+				return
+			end
+		end
+		-- Wrap to first comment
+		local start_row = comments[1]:start()
+		vim.api.nvim_win_set_cursor(0, { start_row + 1, 0 })
+	else
+		for i = #comments, 1, -1 do
+			local start_row = comments[i]:start()
+			if start_row < row then
+				vim.api.nvim_win_set_cursor(0, { start_row + 1, 0 })
+				return
+			end
+		end
+		-- Wrap to last comment
+		local start_row = comments[#comments]:start()
+		vim.api.nvim_win_set_cursor(0, { start_row + 1, 0 })
+	end
 end
 
 vim.keymap.set("n", "]c", function()
-  jump_to_comment("next")
+	jump_to_comment("next")
 end, { desc = "Next comment" })
 
 vim.keymap.set("n", "[c", function()
-  jump_to_comment("prev")
+	jump_to_comment("prev")
 end, { desc = "Previous comment" })
