@@ -4,9 +4,22 @@ return {
 		version = "v2.*",
 	},
 	{
+		"saghen/blink.compat",
+		version = "*",
+		lazy = true,
+		opts = {},
+	},
+	{
+		"ray-x/cmp-sql",
+	},
+	{
 		"saghen/blink.cmp",
 		version = "1.*",
-		dependencies = { "L3MON4D3/LuaSnip" },
+		dependencies = {
+			"L3MON4D3/LuaSnip",
+			"saghen/blink.compat",
+			"ray-x/cmp-sql",
+		},
 		event = "InsertEnter",
 		opts = {
 			snippets = { preset = "luasnip" },
@@ -17,6 +30,15 @@ return {
 
 			sources = {
 				default = { "lsp", "snippets", "buffer" },
+				per_filetype = {
+					sql = { inherit_defaults = true, "sql" },
+				},
+				providers = {
+					sql = {
+						name = "sql",
+						module = "blink.compat.source",
+					},
+				},
 			},
 
 			completion = {
