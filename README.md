@@ -58,7 +58,7 @@ sudo pacman -S neovim ripgrep
 - `staticcheck` — Go static analysis
 - `jsonlint` — JSON linter
 
-SQL keyword completion is provided by `cmp-sql` (no LSP needed).
+SQL keyword completion is provided by the buffer source (no LSP needed).
 
 # Shortcuts
 

@@ -21,6 +21,9 @@ return {
 					Pmenu = { fg = theme.ui.pmenu.fg, bg = theme.ui.float.bg },
 					PmenuKind = { fg = theme.ui.fg_dim, bg = theme.ui.float.bg },
 					PmenuExtra = { fg = theme.ui.special, bg = theme.ui.float.bg },
+					-- Solid border blends into content bg across all floats
+					FloatBorder = { fg = theme.ui.float.fg_border, bg = theme.ui.float.bg },
+					BlinkCmpMenuBorder = { bg = theme.ui.float.bg },
 				}
 			end,
 		})
