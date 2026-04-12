@@ -14,6 +14,15 @@ return {
 				dark = "wave",
 				light = "lotus",
 			},
+			overrides = function(colors)
+				local theme = colors.theme
+				return {
+					-- Completion popup shares the same background as hover/diagnostic floats
+					Pmenu = { fg = theme.ui.pmenu.fg, bg = theme.ui.float.bg },
+					PmenuKind = { fg = theme.ui.fg_dim, bg = theme.ui.float.bg },
+					PmenuExtra = { fg = theme.ui.special, bg = theme.ui.float.bg },
+				}
+			end,
 		})
 
 		vim.cmd("colorscheme kanagawa")

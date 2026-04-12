@@ -21,9 +21,13 @@ return {
 	},
 	{
 		"hrsh7th/nvim-cmp",
+		dependencies = {
+			"onsails/lspkind.nvim",
+		},
 		config = function()
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
+			local lspkind = require("lspkind")
 
 			cmp.setup({
 				snippet = {
@@ -32,8 +36,19 @@ return {
 					end,
 				},
 				window = {
-					completion = cmp.config.window.bordered(),
-					documentation = cmp.config.window.bordered(),
+					completion = cmp.config.window.bordered({
+						winhighlight = "Normal:Pmenu,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+					}),
+					documentation = cmp.config.window.bordered({
+						winhighlight = "Normal:Pmenu,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+					}),
+				},
+				formatting = {
+					format = lspkind.cmp_format({
+						mode = "symbol_text",
+						maxwidth = 50,
+						ellipsis_char = "…",
+					}),
 				},
 				mapping = cmp.mapping.preset.insert({
 					["<C-x>"] = cmp.mapping.complete(),
