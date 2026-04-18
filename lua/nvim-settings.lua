@@ -52,12 +52,10 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- Comment navigation (Helix-style: ]c/[c)
 local function jump_to_comment(direction)
-	local ts = vim.treesitter
 	local bufnr = vim.api.nvim_get_current_buf()
-	local cursor = vim.api.nvim_win_get_cursor(0)
-	local row = cursor[1] - 1 -- 0-indexed
+	local row = vim.api.nvim_win_get_cursor(0)[1] - 1
 
-	local ok, parser = pcall(ts.get_parser, bufnr)
+	local ok, parser = pcall(vim.treesitter.get_parser, bufnr)
 	if not ok or not parser then
 		return
 	end
@@ -67,27 +65,27 @@ local function jump_to_comment(direction)
 		return
 	end
 
-	local root = tree:root()
+	local lang = parser:lang()
 	local comments = {}
 
-	-- Collect all comment nodes
-	for node in root:iter_children() do
-		local function collect_comments(n)
-			if n:type():match("comment") then
-				table.insert(comments, n)
+	-- Most grammars use (comment); Rust uses line_comment/block_comment
+	local patterns = { "(comment) @c", "[(line_comment) (block_comment)] @c" }
+	for _, pat in ipairs(patterns) do
+		local q_ok, query = pcall(vim.treesitter.query.parse, lang, pat)
+		if q_ok and query then
+			for _, node in query:iter_captures(tree:root(), bufnr) do
+				table.insert(comments, node)
 			end
-			for child in n:iter_children() do
-				collect_comments(child)
+			if #comments > 0 then
+				break
 			end
 		end
-		collect_comments(node)
 	end
 
 	if #comments == 0 then
 		return
 	end
 
-	-- Find next/prev comment with wrapping
 	if direction == "next" then
 		for _, node in ipairs(comments) do
 			local start_row = node:start()
@@ -96,9 +94,7 @@ local function jump_to_comment(direction)
 				return
 			end
 		end
-		-- Wrap to first comment
-		local start_row = comments[1]:start()
-		vim.api.nvim_win_set_cursor(0, { start_row + 1, 0 })
+		vim.api.nvim_win_set_cursor(0, { comments[1]:start() + 1, 0 })
 	else
 		for i = #comments, 1, -1 do
 			local start_row = comments[i]:start()
@@ -107,9 +103,7 @@ local function jump_to_comment(direction)
 				return
 			end
 		end
-		-- Wrap to last comment
-		local start_row = comments[#comments]:start()
-		vim.api.nvim_win_set_cursor(0, { start_row + 1, 0 })
+		vim.api.nvim_win_set_cursor(0, { comments[#comments]:start() + 1, 0 })
 	end
 end
 

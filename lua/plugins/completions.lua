@@ -40,7 +40,7 @@ return {
 			},
 
 			sources = {
-				default = { "lsp", "snippets", "buffer" },
+				default = { "lsp", "path", "snippets", "buffer" },
 				per_filetype = {
 					sql = { inherit_defaults = true, "sql" },
 				},
