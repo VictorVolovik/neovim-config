@@ -2,6 +2,16 @@ return {
 	{
 		"L3MON4D3/LuaSnip",
 		version = "v2.*",
+		build = "make install_jsregexp",
+		config = function()
+			require("luasnip.loaders.from_vscode").lazy_load({
+				paths = { vim.fn.stdpath("config") .. "/lua/snippets" },
+			})
+			local ls = require("luasnip")
+			ls.filetype_extend("typescript", { "javascript" })
+			ls.filetype_extend("javascriptreact", { "javascript", "react" })
+			ls.filetype_extend("typescriptreact", { "typescript", "javascript", "react" })
+		end,
 	},
 	{
 		"saghen/blink.compat",
@@ -67,7 +77,7 @@ return {
 			},
 
 			keymap = {
-				preset = "default",
+				preset = "super-tab",
 				["<C-x>"] = { "show", "show_documentation", "hide_documentation" },
 				["<C-e>"] = { "hide", "fallback" },
 				["<C-j>"] = { "select_next", "fallback" },
@@ -75,8 +85,6 @@ return {
 				["<Up>"] = { "scroll_documentation_up", "fallback" },
 				["<Down>"] = { "scroll_documentation_down", "fallback" },
 				["<CR>"] = { "accept", "fallback" },
-				["<Tab>"] = { "snippet_forward", "select_next", "fallback" },
-				["<S-Tab>"] = { "snippet_backward", "select_prev", "fallback" },
 			},
 		},
 		opts_extend = { "sources.default" },

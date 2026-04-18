@@ -1,0 +1,7 @@
+{
+  "if err != nil": {
+    "prefix": "err",
+    "body": ["if err != nil {", "\treturn${1}", "}", "$0"],
+    "description": "Go err check"
+  }
+}

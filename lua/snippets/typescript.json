@@ -1,0 +1,22 @@
+{
+  "enum": {
+    "prefix": "enum",
+    "body": [
+      "enum ${1:Name} {",
+      "\t${2:MEMBER} = \"${3:value}\",",
+      "\t$0",
+      "}"
+    ],
+    "description": "Enum with tabstops for name and value"
+  },
+  "interface": {
+    "prefix": "int",
+    "body": [
+      "interface ${1:Name} {",
+      "\t${2:key}: ${3:type};",
+      "\t$0",
+      "}"
+    ],
+    "description": "Interface with tabstops for key and type"
+  }
+}

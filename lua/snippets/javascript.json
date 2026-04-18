@@ -1,0 +1,37 @@
+{
+  "console.log": {
+    "prefix": "cl",
+    "body": "console.log($1);$0",
+    "description": "Log to console"
+  },
+  "console.error": {
+    "prefix": "ce",
+    "body": "console.error($1);$0",
+    "description": "Error to console"
+  },
+  "function declaration": {
+    "prefix": "fn",
+    "body": ["function ${1:name}(${2:params}) {", "\t$0", "}"],
+    "description": "Function declaration"
+  },
+  "try catch": {
+    "prefix": "tc",
+    "body": ["try {", "\t$1", "} catch (${2:err}) {", "\t$0", "}"],
+    "description": "try / catch block"
+  },
+  "if else": {
+    "prefix": "ie",
+    "body": ["if (${1:condition}) {", "\t$2", "} else {", "\t$0", "}"],
+    "description": "if / else block"
+  },
+  "for loop": {
+    "prefix": "for",
+    "body": ["for (let ${1:i} = 0; $1 < ${2:len}; $1++) {", "\t$0", "}"],
+    "description": "Basic for loop"
+  },
+  "debug log": {
+    "prefix": "dv",
+    "body": "console.log(\"DEBUG ${1:var}:\", $1);$0",
+    "description": "Debug variables"
+  }
+}
