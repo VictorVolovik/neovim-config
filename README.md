@@ -11,25 +11,27 @@ git clone https://github.com/VictorVolovik/neovim-config.git ~/.config/nvim
 ## MacOS
 
 ```
-brew install neovim ripgrep
+brew install neovim ripgrep tree-sitter-cli
 ```
 
 ## Linux (Ubuntu / Debian)
 
 ```
 sudo apt install neovim ripgrep
+npm i -g tree-sitter-cli
 ```
 
 ## Linux (Fedora)
 
 ```
 sudo dnf install neovim ripgrep
+npm i -g tree-sitter-cli
 ```
 
 ## Linux (Arch)
 
 ```
-sudo pacman -S neovim ripgrep
+sudo pacman -S neovim ripgrep tree-sitter-cli
 ```
 
 ## Fonts
