@@ -11,6 +11,7 @@ return {
 			ls.filetype_extend("typescript", { "javascript" })
 			ls.filetype_extend("javascriptreact", { "javascript", "react" })
 			ls.filetype_extend("typescriptreact", { "typescript", "javascript", "react" })
+			ls.filetype_extend("astro", { "typescript", "javascript" })
 		end,
 	},
 	{
