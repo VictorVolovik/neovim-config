@@ -5,6 +5,9 @@ return {
 	build = ":TSUpdate",
 	lazy = false,
 	config = function()
+		local plugin_runtime = vim.fn.stdpath("data") .. "/lazy/nvim-treesitter/runtime"
+		vim.opt.runtimepath:prepend(plugin_runtime)
+
 		local ensure = {
 			"c",
 			"lua",
