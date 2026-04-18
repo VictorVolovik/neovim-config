@@ -67,7 +67,7 @@ return {
 					window = { border = "solid" },
 				},
 				list = {
-					selection = { preselect = false, auto_insert = false },
+					selection = { preselect = true, auto_insert = false },
 				},
 			},
 
