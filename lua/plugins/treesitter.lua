@@ -32,7 +32,19 @@ return {
 			end)
 			:totable()
 		if #todo > 0 then
-			require("nvim-treesitter").install(todo)
+			local task = require("nvim-treesitter").install(todo)
+			task:await(function(err)
+				if err then
+					return
+				end
+				vim.schedule(function()
+					for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+						if vim.api.nvim_buf_is_loaded(buf) then
+							pcall(vim.treesitter.start, buf)
+						end
+					end
+				end)
+			end)
 		end
 
 		vim.treesitter.language.register("javascript", "javascriptreact")
@@ -40,7 +52,34 @@ return {
 
 		vim.api.nvim_create_autocmd("FileType", {
 			callback = function(args)
-				pcall(vim.treesitter.start, args.buf)
+				local buf = args.buf
+				local ft = vim.bo[buf].filetype
+				local lang = vim.treesitter.language.get_lang(ft) or ft
+				local cfg = require("nvim-treesitter.config")
+				if vim.tbl_contains(cfg.get_installed(), lang) then
+					pcall(vim.treesitter.start, buf)
+					return
+				end
+				local registry = require("treesitter-registry")
+				local function maybe_install()
+					if not registry.loaded or not registry.loaded[lang] then
+						return
+					end
+					local task = require("nvim-treesitter").install({ lang })
+					task:await(function(err)
+						if err then
+							return
+						end
+						vim.schedule(function()
+							pcall(vim.treesitter.start, buf)
+						end)
+					end)
+				end
+				if registry.loaded then
+					maybe_install()
+				else
+					registry.load(maybe_install)
+				end
 			end,
 		})
 	end,
