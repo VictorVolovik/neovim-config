@@ -4,7 +4,9 @@ return {
 	config = function()
 		require("lualine").setup({
 			options = {
-				theme = "moonfly",
+				theme = "kanagawa",
+				section_separators = { left = "\xee\x82\xb4", right = "\xee\x82\xb6" },
+				component_separators = { left = "│", right = "│" },
 			},
 			sections = {
 				lualine_c = {
