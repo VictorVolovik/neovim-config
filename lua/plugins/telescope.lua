@@ -37,7 +37,7 @@ return {
 				local make_entry = require("telescope.make_entry")
 				local default_maker = make_entry.gen_from_marks({})
 				builtin.marks({
-					mark_type = "global",
+					mark_type = "all",
 					entry_maker = function(item)
 						if item.filename and not vim.startswith(item.filename, cwd) then
 							return nil
