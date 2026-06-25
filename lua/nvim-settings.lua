@@ -107,10 +107,17 @@ local function jump_to_comment(direction)
 	end
 end
 
+-- ]c/[c, but fall back to native diff-hunk jump in diff mode.
 vim.keymap.set("n", "]c", function()
+	if vim.wo.diff then
+		return vim.cmd("normal! ]c")
+	end
 	jump_to_comment("next")
 end, { desc = "Next comment" })
 
 vim.keymap.set("n", "[c", function()
+	if vim.wo.diff then
+		return vim.cmd("normal! [c")
+	end
 	jump_to_comment("prev")
 end, { desc = "Previous comment" })

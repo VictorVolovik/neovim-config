@@ -147,6 +147,28 @@ Leader key is `Space`.
 | `]g` / `[g` | Next / previous git hunk |
 | `]c` / `[c` | Next / previous comment  |
 
+## Treesitter text objects
+
+Syntax-aware text objects (works with `y`/`d`/`c`/`v`, e.g. `yaf` yanks a function, `dif` deletes function body, `2yaf` expands to outer function).
+
+### Select
+
+| Key          | Object                         |
+| ------------ | ------------------------------ |
+| `af` / `if`  | Function (outer / inner)       |
+| `ac` / `ic`  | Class (outer / inner)          |
+| `aa` / `ia`  | Parameter / argument           |
+| `al` / `il`  | Loop (outer / inner)           |
+| `ai` / `ii`  | Conditional (outer / inner)    |
+| `ab` / `ib`  | Block `{}` (outer / inner)     |
+
+### Move
+
+| Key         | Action                         |
+| ----------- | ------------------------------ |
+| `]f` / `[f` | Next / previous function start |
+| `]F` / `[F` | Next / previous function end   |
+
 ## Git (gitsigns)
 
 | Key        | Action                |
@@ -188,3 +210,4 @@ Leader key is `Space`.
 - Web/doc/Lua files (TS, TSX, CSS, Astro, Markdown, Lua) are formatted exclusively via none-ls (Prettier/StyLua) to avoid conflicts with other LSP formatters
 - Neo-tree follows current file
 - Treesitter highlighting for all supported file types
+- Treesitter text objects (`af`/`if`/`ac`/`ic`/…`) and function motion (`]f`/`[f`/`]F`/`[F`)
