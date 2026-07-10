@@ -5,19 +5,27 @@ return {
 			require("mason").setup()
 
 			-- Ensure non-LSP tools are installed
-			local ensure_installed = { "sqlfluff", "stylua", "prettier", "staticcheck", "jsonlint" }
+			local ensure_installed = { "sqlfluff", "stylua", "prettier" }
 			local registry = require("mason-registry")
-			for _, name in ipairs(ensure_installed) do
-				local ok, pkg = pcall(registry.get_package, name)
-				if ok and not pkg:is_installed() then
-					pkg:install()
+			registry.refresh(function(success)
+				if not success then
+					vim.notify("mason-registry refresh failed", vim.log.levels.WARN)
 				end
-			end
+				for _, name in ipairs(ensure_installed) do
+					local ok, pkg = pcall(registry.get_package, name)
+					if ok and not pkg:is_installed() then
+						pkg:install()
+					end
+				end
+			end)
 		end,
 	},
 	{
 		"williamboman/mason-lspconfig.nvim",
 		config = function()
+			-- mason-lspconfig auto-enables every installed server (automatic_enable
+			-- defaults to true): it applies its per-server shims via vim.lsp.config,
+			-- then calls vim.lsp.enable — no manual vim.lsp.enable needed here
 			require("mason-lspconfig").setup({
 				ensure_installed = {
 					"lua_ls",
@@ -47,8 +55,12 @@ return {
 			})
 
 			-- Per-server overrides
-			vim.lsp.config("ts_ls", {
-				root_markers = { "package.json" },
+			vim.lsp.config("gopls", {
+				settings = {
+					gopls = {
+						staticcheck = true,
+					},
+				},
 			})
 
 			vim.lsp.config("rust_analyzer", {
@@ -76,21 +88,6 @@ return {
 						},
 					},
 				},
-			})
-
-			-- Enable all servers
-			vim.lsp.enable({
-				"lua_ls",
-				"ts_ls",
-				"gopls",
-				"rust_analyzer",
-				"eslint",
-				"emmet_language_server",
-				"jsonls",
-				"tailwindcss",
-				"cssls",
-				"html",
-				"astro",
 			})
 
 			-- Format on save for TS, Go and Rust
@@ -132,6 +129,8 @@ return {
 
 			-- Diagnostics
 			vim.diagnostic.config({
+				severity_sort = true,
+				float = { source = true },
 				signs = {
 					text = {
 						[vim.diagnostic.severity.ERROR] = "",

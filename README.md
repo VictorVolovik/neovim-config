@@ -42,7 +42,7 @@ sudo pacman -S neovim ripgrep tree-sitter-cli
 
 - `lua_ls` — Lua
 - `ts_ls` — TypeScript / JavaScript / TSX / JSX
-- `gopls` — Go
+- `gopls` — Go (with integrated staticcheck analysis)
 - `rust_analyzer` — Rust (clippy, allFeatures, procMacro)
 - `astro` — Astro
 - `eslint` — ESLint
@@ -57,8 +57,6 @@ sudo pacman -S neovim ripgrep tree-sitter-cli
 - `stylua` — Lua formatter
 - `prettier` — JS/TS/JSON/CSS/Markdown formatter
 - `sqlfluff` — SQL linter & formatter (postgres dialect)
-- `staticcheck` — Go static analysis
-- `jsonlint` — JSON linter
 
 SQL keyword completion is provided by the buffer source (no LSP needed).
 

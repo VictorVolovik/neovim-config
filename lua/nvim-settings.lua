@@ -15,6 +15,19 @@ vim.g.omni_sql_no_default_maps = 1
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
+-- Reload unmodified buffers after files change outside Neovim;
+-- built-in autoread covers focus regain and :! shell commands, these events
+-- cover terminal exits (incl. background jobs) and entering a stale buffer
+local external_file_changes = vim.api.nvim_create_augroup("external_file_changes", { clear = true })
+vim.api.nvim_create_autocmd({ "TermLeave", "TermClose", "BufEnter" }, {
+	group = external_file_changes,
+	callback = function()
+		if vim.fn.getcmdwintype() == "" then
+			vim.cmd("checktime")
+		end
+	end,
+})
+
 -- Key mappings --
 
 -- Clear search highlight
