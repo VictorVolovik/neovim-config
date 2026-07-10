@@ -1,5 +1,14 @@
 return {
 	{
+		"folke/lazydev.nvim",
+		ft = "lua",
+		opts = {
+			library = {
+				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
+			},
+		},
+	},
+	{
 		"L3MON4D3/LuaSnip",
 		version = "v2.*",
 		build = "make install_jsregexp",
@@ -42,9 +51,15 @@ return {
 			sources = {
 				default = { "lsp", "path", "snippets", "buffer" },
 				per_filetype = {
+					lua = { inherit_defaults = true, "lazydev" },
 					sql = { inherit_defaults = true, "sql" },
 				},
 				providers = {
+					lazydev = {
+						name = "LazyDev",
+						module = "lazydev.integrations.blink",
+						score_offset = 100,
+					},
 					sql = {
 						name = "sql",
 						module = "blink.compat.source",
