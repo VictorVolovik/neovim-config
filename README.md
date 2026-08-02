@@ -8,6 +8,8 @@ git clone https://github.com/VictorVolovik/neovim-config.git ~/.config/nvim
 
 # Prerequisites
 
+Neovim 0.11+
+
 ## MacOS
 
 ```
@@ -17,8 +19,15 @@ brew install neovim ripgrep tree-sitter-cli
 ## Linux (Ubuntu / Debian)
 
 ```
-sudo apt install neovim ripgrep
-npm i -g tree-sitter-cli
+sudo apt install ripgrep
+
+curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
+sudo tar -xzf nvim-linux-x86_64.tar.gz -C /opt
+ln -s /opt/nvim-linux-x86_64/bin/nvim ~/.local/bin/nvim
+
+curl -L https://github.com/tree-sitter/tree-sitter/releases/latest/download/tree-sitter-linux-x64.gz \
+  | gunzip > ~/.local/bin/tree-sitter
+chmod +x ~/.local/bin/tree-sitter
 ```
 
 ## Linux (Fedora)
