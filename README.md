@@ -52,7 +52,7 @@ sudo pacman -S neovim ripgrep tree-sitter-cli
 - `lua_ls` — Lua
 - `ts_ls` — TypeScript / JavaScript / TSX / JSX
 - `gopls` — Go (with integrated staticcheck analysis)
-- `rust_analyzer` — Rust (clippy, allFeatures, procMacro)
+- `rust_analyzer` — Rust (clippy, allFeatures, procMacro, inlay hints)
 - `astro` — Astro
 - `eslint` — ESLint
 - `emmet_language_server` — Emmet
@@ -140,6 +140,12 @@ Leader key is `Space`.
 | `Space r`  | Rename symbol |
 | `Space lf` | Format file   |
 
+## LSP — Toggles
+
+| Key        | Action                           |
+| ---------- | -------------------------------- |
+| `Space th` | Toggle inlay hints (all buffers) |
+
 ## Diagnostics
 
 | Key         | Action                                    |
@@ -160,14 +166,14 @@ Syntax-aware text objects (works with `y`/`d`/`c`/`v`, e.g. `yaf` yanks a functi
 
 ### Select
 
-| Key          | Object                         |
-| ------------ | ------------------------------ |
-| `af` / `if`  | Function (outer / inner)       |
-| `ac` / `ic`  | Class (outer / inner)          |
-| `aa` / `ia`  | Parameter / argument           |
-| `al` / `il`  | Loop (outer / inner)           |
-| `ai` / `ii`  | Conditional (outer / inner)    |
-| `ab` / `ib`  | Block `{}` (outer / inner)     |
+| Key         | Object                      |
+| ----------- | --------------------------- |
+| `af` / `if` | Function (outer / inner)    |
+| `ac` / `ic` | Class (outer / inner)       |
+| `aa` / `ia` | Parameter / argument        |
+| `al` / `il` | Loop (outer / inner)        |
+| `ai` / `ii` | Conditional (outer / inner) |
+| `ab` / `ib` | Block `{}` (outer / inner)  |
 
 ### Move
 

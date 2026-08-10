@@ -148,6 +148,11 @@ return {
 			})
 			vim.keymap.set("n", "<Leader>e", vim.diagnostic.open_float)
 
+			-- Inlay hints (global toggle)
+			vim.keymap.set("n", "<Leader>th", function()
+				vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+			end, { desc = "Toggle inlay hints" })
+
 			-- LSP keybindings via LspAttach
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(args)
