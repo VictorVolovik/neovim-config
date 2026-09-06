@@ -49,6 +49,25 @@ return {
 		config = function()
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
 
+			-- Prettier / StyLua (via none-ls) own formatting for these filetypes
+			local null_ls_ft = {
+				javascript = true,
+				javascriptreact = true,
+				typescript = true,
+				typescriptreact = true,
+				css = true,
+				astro = true,
+				markdown = true,
+				lua = true,
+			}
+
+			local function format_filter(client)
+				if null_ls_ft[vim.bo.filetype] then
+					return client.name == "null-ls"
+				end
+				return true
+			end
+
 			-- Global defaults for all servers
 			vim.lsp.config("*", {
 				capabilities = capabilities,
@@ -90,11 +109,55 @@ return {
 				},
 			})
 
+			-- Emmet's JSX profile rewrites class -> className and for -> htmlFor, which is
+			-- right for React but wrong for Solid. Pick the profile per project root.
+			local function uses_solid(root)
+				if not root then
+					return false
+				end
+				local f = io.open(root .. "/package.json", "r")
+				if not f then
+					return false
+				end
+				local ok, pkg = pcall(vim.json.decode, f:read("*a"))
+				f:close()
+				if not ok or type(pkg) ~= "table" then
+					return false
+				end
+				for _, field in ipairs({ "dependencies", "devDependencies" }) do
+					if type(pkg[field]) == "table" and pkg[field]["solid-js"] then
+						return true
+					end
+				end
+				return false
+			end
+
+			vim.lsp.config("emmet_language_server", {
+				root_markers = { "package.json", ".git" },
+				before_init = function(params, config)
+					params.initializationOptions = vim.tbl_deep_extend(
+						"force",
+						params.initializationOptions or {},
+						{ showAbbreviationSuggestions = true }
+					)
+					if uses_solid(config.root_dir) then
+						params.initializationOptions.syntaxProfiles = {
+							jsx = {
+								["markup.attributes"] = { class = "class", ["class*"] = "class", ["for"] = "for" },
+								["markup.valuePrefix"] = { ["class*"] = "styles" },
+							},
+						}
+					end
+				end,
+			})
+
 			-- Format on save for TS, Go and Rust
 			vim.api.nvim_create_autocmd("BufWritePre", {
 				pattern = {
 					"*.go",
 					"*.rs",
+					"*.js",
+					"*.jsx",
 					"*.ts",
 					"*.tsx",
 					"*.astro",
@@ -105,21 +168,7 @@ return {
 				callback = function()
 					vim.lsp.buf.format({
 						async = false,
-						filter = function(client)
-							-- For web/doc/lua files, only use none-ls (Prettier/StyLua); for others, allow all
-							local null_ls_ft = {
-								typescript = true,
-								typescriptreact = true,
-								css = true,
-								astro = true,
-								markdown = true,
-								lua = true,
-							}
-							if null_ls_ft[vim.bo.filetype] then
-								return client.name == "null-ls"
-							end
-							return true
-						end,
+						filter = format_filter,
 					})
 				end,
 			})
@@ -174,20 +223,7 @@ return {
 					vim.keymap.set("n", "<Leader>lf", function()
 						vim.lsp.buf.format({
 							async = true,
-							filter = function(client)
-								local null_ls_ft = {
-									typescript = true,
-									typescriptreact = true,
-									css = true,
-									astro = true,
-									markdown = true,
-									lua = true,
-								}
-								if null_ls_ft[vim.bo.filetype] then
-									return client.name == "null-ls"
-								end
-								return true
-							end,
+							filter = format_filter,
 						})
 					end, opts)
 

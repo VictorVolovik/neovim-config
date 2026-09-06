@@ -55,6 +55,21 @@ return {
 					sql = { inherit_defaults = true, "sql" },
 				},
 				providers = {
+					-- blink ships this penalty in sources/lsp/hacks/emmet.lua, but gates it on
+					-- client.name == "emmet-language-server"; lspconfig names the client
+					-- "emmet_language_server", so it never fires. Without it emmet items keep an
+					-- exact-match score bonus and outrank real completions.
+					lsp = {
+						transform_items = function(_, items)
+							for _, item in ipairs(items) do
+								local client = item.client_id and vim.lsp.get_client_by_id(item.client_id)
+								if client and client.name == "emmet_language_server" then
+									item.score_offset = (item.score_offset or 0) - 6
+								end
+							end
+							return items
+						end,
+					},
 					lazydev = {
 						name = "LazyDev",
 						module = "lazydev.integrations.blink",
@@ -100,7 +115,6 @@ return {
 				["<C-k>"] = { "select_prev", "fallback" },
 				["<Up>"] = { "scroll_documentation_up", "fallback" },
 				["<Down>"] = { "scroll_documentation_down", "fallback" },
-				["<CR>"] = { "accept", "fallback" },
 			},
 		},
 		opts_extend = { "sources.default" },
