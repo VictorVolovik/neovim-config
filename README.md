@@ -191,6 +191,13 @@ Syntax-aware text objects (works with `y`/`d`/`c`/`v`, e.g. `yaf` yanks a functi
 | `Space td` | Toggle deleted    |
 | `Space tw` | Toggle word diff  |
 
+## Markdown (render-markdown)
+
+| Key        | Action                                |
+| ---------- | ------------------------------------- |
+| `Space tm` | Toggle markdown rendering (buffer)    |
+| `Space tp` | Toggle rendered preview split (right) |
+
 ## Completion (insert mode)
 
 | Key                 | Action                            |
