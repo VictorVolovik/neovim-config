@@ -167,6 +167,23 @@ Syntax-aware text objects (works with `y`/`d`/`c`/`v`, e.g. `yaf` yanks a functi
 | `]f` / `[f` | Next / previous function start |
 | `]F` / `[F` | Next / previous function end   |
 
+## Surround (nvim-surround)
+
+Aliases: `b` = `)`, `q` = any quote. An opening delimiter adds inner spaces (`ysiw(` gives `( word )`), a closing one does not (`ysiw)` gives `(word)`). `ys` motions use the treesitter text objects above, so `ysib)` wraps a `{}` block.
+
+| Key                       | Action                                               |
+| ------------------------- | ---------------------------------------------------- |
+| `ys{motion}{char}`        | Add pair around motion (e.g., `ysiw"` quotes a word) |
+| `yss{char}`               | Add pair around current line                         |
+| `yS` / `ySS`              | Same as `ys` / `yss`, pair on new lines              |
+| `ds{char}`                | Delete pair (e.g., `ds"`)                            |
+| `cs{target}{replacement}` | Change pair (e.g., `cs"'` turns `"x"` into `'x'`)    |
+| `cS{target}{replacement}` | Change pair, replacement on new lines                |
+| `S{char}` (visual)        | Add pair around selection                            |
+| `gS{char}` (visual)       | Add pair around selection, on new lines              |
+| `Ctrl+g s{char}` (insert) | Add pair around cursor                               |
+| `Ctrl+g S{char}` (insert) | Add pair around cursor, on new lines                 |
+
 ## Git (gitsigns)
 
 | Key        | Action                |
