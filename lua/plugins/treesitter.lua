@@ -1,13 +1,9 @@
 return {
-	"neovim-treesitter/nvim-treesitter",
-	dependencies = { "neovim-treesitter/treesitter-parser-registry" },
+	"nvim-treesitter/nvim-treesitter",
 	branch = "main",
 	build = ":TSUpdate",
 	lazy = false,
 	config = function()
-		local plugin_runtime = vim.fn.stdpath("data") .. "/lazy/nvim-treesitter/runtime"
-		vim.opt.runtimepath:prepend(plugin_runtime)
-
 		local ensure = {
 			"c",
 			"lua",
@@ -60,26 +56,18 @@ return {
 					pcall(vim.treesitter.start, buf)
 					return
 				end
-				local registry = require("treesitter-registry")
-				local function maybe_install()
-					if not registry.loaded or not registry.loaded[lang] then
+				if not vim.tbl_contains(cfg.get_available(), lang) then
+					return
+				end
+				local task = require("nvim-treesitter").install({ lang })
+				task:await(function(err)
+					if err then
 						return
 					end
-					local task = require("nvim-treesitter").install({ lang })
-					task:await(function(err)
-						if err then
-							return
-						end
-						vim.schedule(function()
-							pcall(vim.treesitter.start, buf)
-						end)
+					vim.schedule(function()
+						pcall(vim.treesitter.start, buf)
 					end)
-				end
-				if registry.loaded then
-					maybe_install()
-				else
-					registry.load(maybe_install)
-				end
+				end)
 			end,
 		})
 	end,
