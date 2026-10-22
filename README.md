@@ -217,14 +217,15 @@ Aliases: `b` = `)`, `q` = any quote. An opening delimiter adds inner spaces (`ys
 
 ## Completion (insert mode)
 
-| Key                 | Action                            |
-| ------------------- | --------------------------------- |
-| `Ctrl+x`            | Force open completion             |
-| `Tab` / `Shift+Tab` | Navigate items / snippet jumps    |
-| `Ctrl+j` / `Ctrl+k` | Next / previous item              |
-| `Enter`             | Confirm (explicit selection only) |
-| `Ctrl+e`            | Dismiss completion                |
-| `Up` / `Down`       | Scroll documentation              |
+| Key                 | Action                                                               |
+| ------------------- | -------------------------------------------------------------------- |
+| `Ctrl+x`            | Force open completion                                                |
+| `Tab`               | Accept completion; otherwise next snippet placeholder; otherwise Tab |
+| `Shift+Tab`         | Previous snippet placeholder; otherwise normal key behavior           |
+| `Ctrl+j` / `Ctrl+k` | Next / previous item                                                 |
+| `Enter`             | Accept selected completion (including automatically preselected item) |
+| `Ctrl+e`            | Dismiss completion                                                   |
+| `Up` / `Down`       | Scroll documentation                                                 |
 
 ## Auto behaviors
 
