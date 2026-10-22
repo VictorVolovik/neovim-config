@@ -11,27 +11,33 @@ git clone https://github.com/VictorVolovik/neovim-config.git ~/.config/nvim
 ## MacOS
 
 ```
-brew install neovim ripgrep tree-sitter-cli
+brew install neovim ripgrep fd tree-sitter-cli
 ```
 
 ## Linux (Ubuntu / Debian)
 
 ```
-sudo apt install neovim ripgrep
+sudo apt install neovim ripgrep fd-find
 npm i -g tree-sitter-cli
+```
+
+Ubuntu names the binary `fdfind`; symlink it so Telescope can use it:
+
+```
+mkdir -p ~/.local/bin && ln -s $(which fdfind) ~/.local/bin/fd
 ```
 
 ## Linux (Fedora)
 
 ```
-sudo dnf install neovim ripgrep
+sudo dnf install neovim ripgrep fd-find
 npm i -g tree-sitter-cli
 ```
 
 ## Linux (Arch)
 
 ```
-sudo pacman -S neovim ripgrep tree-sitter-cli
+sudo pacman -S neovim ripgrep fd tree-sitter-cli
 ```
 
 ## Fonts
@@ -59,6 +65,20 @@ sudo pacman -S neovim ripgrep tree-sitter-cli
 - `sqlfluff` — SQL linter & formatter (postgres dialect)
 
 SQL keyword completion is provided by the buffer source (no LSP needed).
+
+# Notes
+
+## Treesitter parser dependencies
+
+Parser dependencies (`html_tags`, `ecma`, `jsx`, `markdown_inline`, `dtd`) are in the auto-install list in `lua/plugins/treesitter.lua` — they carry query files that other languages' queries inherit from (e.g. `typescript` inherits `ecma`, `tsx` inherits `typescript` + `jsx`). Removing them breaks highlighting for the languages above.
+
+## Stale treesitter queries
+
+nvim-treesitter skips query refresh when the parser revision is unchanged. If highlighting degrades after an update (e.g. `.tsx` files), re-sync query files from the plugin runtime:
+
+```
+cp ~/.local/share/nvim/lazy/nvim-treesitter/runtime/queries/<lang>/*.scm ~/.local/share/nvim/site/queries/<lang>/
+```
 
 # Shortcuts
 

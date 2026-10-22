@@ -19,6 +19,11 @@ return {
 			"css",
 			"json",
 			"sql",
+			"html_tags",
+			"ecma",
+			"jsx",
+			"markdown_inline",
+			"dtd",
 		}
 
 		local installed = require("nvim-treesitter.config").get_installed()
