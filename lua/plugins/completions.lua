@@ -100,7 +100,6 @@ return {
 				["<C-k>"] = { "select_prev", "fallback" },
 				["<Up>"] = { "scroll_documentation_up", "fallback" },
 				["<Down>"] = { "scroll_documentation_down", "fallback" },
-				["<CR>"] = { "accept", "fallback" },
 			},
 		},
 		opts_extend = { "sources.default" },

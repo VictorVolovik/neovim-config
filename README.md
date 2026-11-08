@@ -171,14 +171,14 @@ Syntax-aware text objects (works with `y`/`d`/`c`/`v`, e.g. `yaf` yanks a functi
 
 ### Select
 
-| Key          | Object                         |
-| ------------ | ------------------------------ |
-| `af` / `if`  | Function (outer / inner)       |
-| `ac` / `ic`  | Class (outer / inner)          |
-| `aa` / `ia`  | Parameter / argument           |
-| `al` / `il`  | Loop (outer / inner)           |
-| `ai` / `ii`  | Conditional (outer / inner)    |
-| `ab` / `ib`  | Block `{}` (outer / inner)     |
+| Key         | Object                      |
+| ----------- | --------------------------- |
+| `af` / `if` | Function (outer / inner)    |
+| `ac` / `ic` | Class (outer / inner)       |
+| `aa` / `ia` | Parameter / argument        |
+| `al` / `il` | Loop (outer / inner)        |
+| `ai` / `ii` | Conditional (outer / inner) |
+| `ab` / `ib` | Block `{}` (outer / inner)  |
 
 ### Move
 
@@ -241,9 +241,8 @@ Aliases: `b` = `)`, `q` = any quote. An opening delimiter adds inner spaces (`ys
 | ------------------- | -------------------------------------------------------------------- |
 | `Ctrl+x`            | Force open completion                                                |
 | `Tab`               | Accept completion; otherwise next snippet placeholder; otherwise Tab |
-| `Shift+Tab`         | Previous snippet placeholder; otherwise normal key behavior           |
+| `Shift+Tab`         | Previous snippet placeholder; otherwise normal key behavior          |
 | `Ctrl+j` / `Ctrl+k` | Next / previous item                                                 |
-| `Enter`             | Accept selected completion (including automatically preselected item) |
 | `Ctrl+e`            | Dismiss completion                                                   |
 | `Up` / `Down`       | Scroll documentation                                                 |
 
