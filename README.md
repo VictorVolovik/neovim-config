@@ -17,7 +17,7 @@ brew install neovim ripgrep fd tree-sitter-cli
 ## Linux (Ubuntu / Debian)
 
 ```
-sudo apt install neovim ripgrep fd-find
+sudo apt install neovim ripgrep fd-find python3-venv
 npm i -g tree-sitter-cli
 ```
 
@@ -26,6 +26,8 @@ Ubuntu names the binary `fdfind`; symlink it so Telescope can use it:
 ```
 mkdir -p ~/.local/bin && ln -s $(which fdfind) ~/.local/bin/fd
 ```
+
+Ubuntu ships `python3` without `venv`; Mason needs it to install Python tools (`sqlfluff`).
 
 ## Linux (Fedora)
 
